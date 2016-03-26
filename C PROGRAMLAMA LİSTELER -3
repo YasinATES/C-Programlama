@@ -42,3 +42,4 @@ void yazdir(int b)
 		temp=temp->next;
 	}
 }
+ 
