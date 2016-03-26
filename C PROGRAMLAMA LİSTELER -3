@@ -1,0 +1,44 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+	int data;
+	struct node *next;
+};
+typedef struct node node;
+node *head;
+void yazdir(int );
+void ekle(int*);
+int main()
+{
+	int s,liste,i;
+	head=(node*)malloc(sizeof(node));
+	head->next=NULL;
+	printf("Kacli listse oluşturacaksınız?");
+	scanf("%d",&liste);
+	for(i=0;i<liste;i++)
+	{
+		printf("Sayi girniz=");
+		scanf("%d",&s);
+		ekle(&s);
+	}
+	yazdir(liste);
+}
+void ekle( int *a)
+{
+	node *temp;
+	temp=(node*)malloc(sizeof(node));
+	temp->data=*a;
+	temp->next=head;
+	head=temp;
+}
+void yazdir(int b)
+{
+	node *temp;
+	temp=head;
+	for(int i=0;i<b;i++)
+	{
+		printf("%d\n",temp->data);
+		temp=temp->next;
+	}
+}
