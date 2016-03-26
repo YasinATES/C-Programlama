@@ -1,0 +1,44 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+struct node
+{
+	char data1[20];
+	int data;
+	struct node *next;
+};
+typedef struct node node;
+node *head;
+void ekle(char [], int *);
+int main ()
+{
+	char ad[20];
+    int yas;
+	head= (node *) malloc (sizeof(node));
+	head->next=NULL;
+	for(int i=0;i<5;i++)
+	{
+		printf("Ad giriniz :");
+		scanf("%s",&ad);
+		printf("Yasi giriniz:");
+		scanf("%d",&yas);
+		ekle(ad,&yas);
+	}
+	node *temp;
+	temp=head;
+	while(temp->next!=NULL)
+	{
+		printf("Ad=%s\n",temp->data1);
+		printf("Yas=%d\n",temp->data);
+		temp=temp->next;
+	}
+}
+void ekle(char ad[20], int *yas)
+{
+	node *temp;
+	temp=(node*)malloc(sizeof(node));
+	strcpy(temp->data1,ad);
+	temp->data=*yas;
+	temp->next=head;
+	head=temp;
+}
