@@ -42,3 +42,4 @@ void ekle(char ad[20], int *yas)
 	temp->next=head;
 	head=temp;
 }
+ 
