@@ -1,0 +1,80 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<conio.h>
+struct node
+{
+	int data;
+	struct node *next;
+};
+typedef node node;
+node *head;
+void ekle(int*);
+void ekleort(int*);
+void yazdir();
+int main()
+{
+	int secim,s1,s2;
+	head=(node*)malloc(sizeof(node));
+	head->next=NULL;
+	do
+	{
+		
+		system ("cls");
+		yazdir();
+		hata1: printf("Eklemek icin '1'\nOrtaya eklemek icin '2'\nCikmak icin '3'");
+		scanf("%d",&secim);
+		switch(secim)
+		{
+			case 1:
+				printf("Sayi girin=");
+				scanf("%d",&s1);
+				ekle(&s1);
+				break;
+			case 2:
+				printf("Sayi girin=");
+				scanf("%d",&s2);
+				ekleort(&s2);
+				break;
+			case 3:
+				exit (0);
+				break;
+			default :
+				printf("\nYanlis tusa bastiniz tekrar deneyin."); goto hata1;
+		}
+	}
+	while(1);
+}
+void ekle (int *a)
+{
+	node *temp;
+	temp=(node*)malloc(sizeof(node));
+	temp->data=*a;
+	temp->next=head;
+	head=temp;
+}
+void yazdir()
+{
+	node *temp;
+	temp=head;
+	while(temp->next!=NULL)
+	{
+		printf("%d\n",temp->data);
+		temp=temp->next;
+	}
+}
+void ekleort(int *b)
+{
+	int say;
+	node *temp,*temp1;
+	temp1=head;
+	printf("Hangi sayidan once girmek istiyorsunuz?");
+	scanf("%d",&say);
+	while(temp1->data!=say)
+	{
+		temp1=temp1->next;
+	}
+	temp=(node *)malloc(sizeof(node));
+	temp->data=*b;
+	temp->next=temp1->next;
+	temp1->next=temp;
+}
