@@ -1,0 +1,276 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<conio.h>
+struct node
+{
+	int data;
+	struct node *next;
+};
+
+int b=0;
+typedef node node;
+node *head,*head2;
+void ekle(int*);
+void ekleort(int*);
+void yazdir();
+void ekleson(int*);
+void sil(int *);
+void guncelle(int *);
+void tersten();
+void maxbul();
+void minbul();
+void sirala();
+int main()
+{
+	int s1,secim;
+	head=(node*)malloc(sizeof(node));
+	head->next=NULL;
+
+	do
+	{
+		
+		system ("cls");
+		yazdir(); 
+		printf("\n\nEklemek icin            '1'");
+		printf("\nOrtaya eklemek icin     '2'");
+		printf("\nSona eklemek icin       '3'");
+		printf("\nSilmek icin             '4'");
+		printf("\nGuncellemek icin        '5'");
+		printf("\nTersten yazdirmak icin  '6'");
+		printf("\nMax bulmak icin         '7'");
+		printf("\nMin bulmak icin         '8'");
+		printf("\nSiralamak icin          '9'");
+		printf("\nCikmak icin             '10'");
+	hata1:	scanf("%d",&secim);
+		switch(secim)
+		{
+			case 1:
+				printf("Sayi girin=");
+				scanf("%d",&s1);
+				ekle(&s1);
+				break;
+			case 2:
+				printf("Sayi girin=");
+				scanf("%d",&s1);
+				ekleort(&s1);
+				break;
+			case 3:
+				printf("Sayi girin=");
+				scanf("%d",&s1);
+				ekleson(&s1);
+				break;
+			case 4:
+				printf("Hangi sayiyi sileceksiniz?");
+				scanf("%d",&s1);
+				sil(&s1);
+				break;
+			case 5:
+				printf("Sayi giriniz:");
+				scanf("%d",&s1);
+				guncelle(&s1);
+				break;
+			case 6:
+				tersten();
+				getch();
+				break;	
+			case 7:
+				maxbul();
+				break;
+			case 8:
+				minbul();
+				break;
+			case 9:
+				sirala();
+				break;
+			case 10:
+				exit(0);
+				break;
+			default :
+				printf("\nYanlis tusa bastiniz tekrar deneyin."); goto hata1;
+		}
+	}
+	while(1);
+}
+void ekle (int *a)
+{
+	node *temp;
+	temp=(node*)malloc(sizeof(node));
+	temp->data=*a;
+	temp->next=head;
+	head=temp;
+}
+void yazdir()
+{
+	node *temp;
+	temp=head;
+	if(b==0)
+	{
+		while(temp->next!=NULL)
+		{
+			printf("%d\t",temp->data);
+			temp=temp->next;
+		}
+	}
+	else if(b==1)
+	{
+		while(temp!=NULL)
+		{
+			printf("%d\t",temp->data);
+			temp=temp->next;
+		}
+	}
+
+}
+void ekleort(int *a)
+{
+	int s;
+	node *temp,*temp1;
+	temp=(node*)malloc(sizeof(node));
+	temp1=head;
+	printf("Hangi sayidan once eklemek istersiniz");
+	scanf("%d",&s);
+	while(temp1->next->data!=s)
+	{
+		temp1=temp1->next;
+	}	
+	temp->data=*a;
+	temp->next=temp1->next;
+	temp1->next=temp;
+}
+void ekleson(int *a)
+{
+	b=1;
+	node *temp,*temp1;
+	temp1=head;
+	while(temp1->next->next!=NULL)
+	{
+		temp1=temp1->next;
+	}
+	temp=(node*)malloc(sizeof(node));
+	temp->data=*a;
+	temp1->next=temp;
+	temp->next=NULL;
+}
+void sil(int *a)
+{
+	node *temp1,*temp;
+	temp1=head;
+	temp=head;
+	if(temp->data==*a)
+	{
+		head=temp->next;
+		free(temp);
+	}
+	else
+	{
+		while(temp1->data!=*a)
+		{
+			temp1=temp1->next;
+		}
+		while(temp->next!=temp1)
+		{
+			temp=temp->next;
+		}
+		temp->next=temp1->next;
+		free(temp1);
+	}
+}
+void guncelle(int *a)
+{
+	int secim;
+	node *temp;
+	temp=(node*)malloc(sizeof(node));
+	temp=head;
+	printf("Hnagi sayiyi guncelleyeceksin?");
+	scanf("%d",&secim);
+	while(temp->data!=secim)
+	{
+		temp=temp->next;
+	}
+	temp->data=*a;
+}
+void tersten()
+{
+	head2=(node*)malloc(sizeof(node));
+	head2->next=NULL;
+	node *temp1,*temp2;
+	temp1=head;
+	temp2=head2;
+	while(temp1->next!=NULL)
+	{
+		node *temp3;
+		temp3=(node*)malloc(sizeof(node));
+		temp3->data=temp1->data;
+		temp3->next=head2;
+		head2=temp3;
+		temp1=temp1->next;
+	}
+	temp2=head2;
+	while(temp2->next!=NULL)
+	{
+		printf("%d\t",temp2->data);
+		temp2=temp2->next;
+	}
+}
+void maxbul()
+{
+	int en=head->data;
+	node *temp;
+	temp=head;
+	while(temp->next!=NULL)
+	{
+		if(en<temp->data)
+		{
+			en=temp->data;
+		}
+		temp=temp->next;
+	}
+	printf("%d",en);
+	getch();
+}
+void minbul()
+{
+	int en=head->data;
+	node *temp;
+	temp=head;
+	while(temp->next!=NULL)
+	{
+		if(en>temp->data)
+		{
+			en=temp->data;
+		}
+		temp=temp->next;
+	}
+	printf("%d",en);
+	getch();
+}
+void sirala()
+{
+	node *temp1;
+	temp1=head;
+	int i=0,dizi[20],gecici,counter=0;
+	while(temp1->next!=NULL){
+		dizi[i]=temp1->data;
+		i++;
+		temp1=temp1->next;
+		counter++;
+	}
+	for(int i=0;i<counter;i++)
+	{
+		dizi[i];
+		for(int j=0;j<counter;j++)
+		{
+			dizi[j];
+			if(dizi[i]<=dizi[j])
+			{
+				gecici=dizi[j];
+				dizi[j]=dizi[i];
+				dizi[i]=gecici;
+			}
+		}
+	}
+	for(int i=0;i<counter;i++){
+	printf("%d \t",dizi[i]);
+	}
+	getch();
+}
