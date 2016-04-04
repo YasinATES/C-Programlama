@@ -1,0 +1,26 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+struct ogrenci{
+	char ad[20];
+	int no;
+	int vize;
+};
+typedef struct ogrenci ogrenci;
+ 
+int main()
+{
+	ogrenci *ogr;
+	ogr=(ogrenci *)malloc(10*sizeof(ogrenci));
+	for(int i=0;i<10;i++)
+	{
+		printf("ogr adi  :"); scanf("%s",(ogr+i)->ad);
+		printf("ogr no   :"); scanf("%d",&(ogr+i)->no);
+		printf("ogr vize :"); scanf("%d",&(ogr+i)->vize);
+	}
+	
+	for(int i=0;i<10;i++)
+	{
+		printf("%s in Notu=%d\nNumarasi=%d\n",(ogr+i)->ad,(ogr+i)->no,(ogr+i)->vize);
+	}
+}
