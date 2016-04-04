@@ -1,0 +1,97 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+struct node
+{
+	char data[20];
+	struct node *next;
+};
+typedef struct node node;
+node *head;
+void ekle(char []);
+void yazdir();
+void sil(char []);
+void guncelle(char []);
+int main ()
+{
+	char ad[20];
+    int secim;
+	head= (node *) malloc (sizeof(node));
+	head->next=NULL;
+		do
+	{
+		system ("cls");
+		yazdir();
+		printf("\nEklemek icin '1'\nSilmek icin '2'\nGuncellemek icin '3'\nCikmak icin '4'");
+		scanf("%d",&secim);
+		switch(secim)
+		{
+			case 1:
+				printf("Ad giriniz:");
+				scanf("%s",ad);
+				ekle(ad);
+				break;
+			case 2:
+				printf("Ad giriniz:");
+				scanf("%s",ad);
+				sil(ad);
+				break;
+			case 3:
+				printf("Ad giriniz:");
+				scanf("%s",ad);
+				guncelle(ad);
+				break;	
+			case 4:
+				exit (0);
+				break;
+		}
+	}
+	while(1);
+}
+void ekle(char ad[20])
+{
+	node *temp;
+	temp=(node*)malloc(sizeof(node));
+	strcpy(temp->data,ad);
+	temp->next=head;
+	head=temp;
+}
+void yazdir()
+{
+	node *temp;
+	temp=head;
+	while(temp->next!=NULL)
+	{
+		printf("%s\t",temp->data);
+		temp=temp->next;
+	}
+}
+void sil(char ad[20])
+{
+	node *temp,*temp1;
+	temp=head;
+	temp1=head;
+	while(strcmp(temp1->data,ad)!=0)
+	{
+		temp1=temp1->next;
+	}
+	while(temp->next!=temp1)
+	{
+		temp=temp->next;
+	}
+	temp->next=temp1->next;
+	free(temp1);
+}
+void guncelle(char ad[])
+{
+	char add[20];
+	node *temp;
+	temp=head;
+	printf("Guncellemek istediginiz ismi girin:");
+	scanf("%s",add);
+	while(strcmp(temp->data,add)!=0)
+	{
+		temp=temp->next;
+	}
+	strcpy(temp->data,ad);
+}
