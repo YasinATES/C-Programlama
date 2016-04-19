@@ -1,0 +1,205 @@
+#include<stdio.h>
+#include<stdlib.h>
+#include<conio.h>
+#include<string.h>
+struct ogrenci
+{
+	char ad[10];
+	int vno,fno;
+	float ort;
+};
+typedef struct ogrenci ogr;
+ogr dizi;
+void kayitgiris();
+void kayitlistele();
+void kayitsil();
+void kayitarama();
+void kayitdegistirme();
+int main()
+{
+	do
+	{
+		printf("Kayit giris icin        '1'\n");
+		printf("Kayit listeleme icin    '2'\n");
+		printf("Kayit silmek icin       '3'\n");
+		printf("Kayit arama icin        '4'\n");
+		printf("Kayit degistirmek icin  '5'\n");
+		printf("Cikmak icin             '6'\n");
+		switch(getch())
+		{
+			case '1':
+				kayitgiris();
+				break;
+			case '2':
+				kayitlistele();
+				break;
+			case '3':
+				kayitsil();
+				break;
+			case '4':
+				kayitarama();
+				break;
+			case '5':
+				kayitdegistirme();
+				break;
+			case '6':
+				exit(0);
+				break;
+		}
+	}
+	while(1);
+}
+void kayitgiris()
+{
+	system("cls");
+	FILE *dosya;
+	dosya=fopen("ogrenci.txt","a");
+	printf("Ad girin     :"); scanf("%s",&dizi.ad);
+	printf("Vize girin   :"); scanf("%d",&dizi.vno);
+	printf("Final girin  :"); scanf("%d",&dizi.fno);
+	dizi.ort=float (dizi.vno*0.4 + dizi.fno*0.6);
+	system("cls");
+	fprintf(dosya,"%s    Vize=%d    Final=%d    Ortalama=%.2f\n",dizi.ad,dizi.vno,dizi.fno,dizi.ort);
+	fclose(dosya);
+	printf("Dosyaya yazilan bilgi -> %sin    Vize=%d    Final=%d    Ortalama=%.2f\n",dizi.ad,dizi.vno,dizi.fno,dizi.ort);
+}
+void kayitlistele()
+{
+	system("cls");
+	FILE *dosya;
+	if((dosya=fopen("ogrenci.txt","r"))!=NULL) // var mı ?
+	{
+		while(!feof(dosya)) // dosyanın sonuna kadar
+		{
+			fscanf(dosya,"%s    Vize=%d    Final=%d    Ortalama=%f\n",&dizi.ad,&dizi.vno,&dizi.fno,&dizi.ort);
+			if(dizi.ad!=NULL)
+			{
+				printf("%s    Vize=%d    Final=%d    Ortalama=%.2f\n",dizi.ad,dizi.vno,dizi.fno,dizi.ort);
+			}
+		}
+	}
+	else
+	{
+		printf("Dosya Bulunamadi!!");
+	}
+	fclose(dosya);
+}
+void kayitsil()
+{
+	char ad[20];
+	int i;
+	system("cls");
+	FILE *dosya,*yedek;
+	printf("Silinecek ognrencinin adini giriniz:");
+	scanf("%s",ad);
+	dosya = fopen("ogrenci.txt","r");
+    yedek = fopen("yedek.txt"  ,"a");
+    if(dosya)
+    {
+    	while(!feof(dosya))
+    	{
+    		fscanf(dosya,"%s    Vize=%d    Final=%d    Ortalama=%f\n",&dizi.ad,&dizi.vno,&dizi.fno,&dizi.ort);
+    		if(strcmp(ad,dizi.ad)!=0)
+    		{
+    			fprintf(yedek,"%s    Vize=%d    Final=%d    Ortalama=%f\n",dizi.ad,dizi.vno,dizi.fno,dizi.ort);
+			}
+			else
+			{
+				i=1;
+			}
+		}
+		fclose(dosya);
+ 		fclose(yedek);
+ 		if(i==1)
+ 		{
+ 	        printf("Kayit sildindi.\n");
+ 		    remove("ogrenci.txt");
+ 			rename("yedek.txt","ogrenci.txt");
+ 			printf("Islem tamamlandi.\n");
+		}
+	}
+	else
+	{
+		printf("Dosya Acilamadi.");
+	}
+}
+void kayitarama()
+{
+	system("cls");
+	char is[20];
+	FILE *dosya;
+	int a=0;
+	printf("Aranacak ismi giriniz:");
+	scanf("%s",is);
+	if((dosya=fopen("ogrenci.txt","r"))!=NULL)
+	{
+		while(!feof(dosya))
+    	{
+    		fscanf(dosya,"%s    Vize=%d    Final=%d    Ortalama=%f\n",&dizi.ad,&dizi.vno,&dizi.fno,&dizi.ort);
+    		if(strcmp(is,dizi.ad)==0)
+    		{
+    			printf("%s    Vize=%d    Final=%d    Ortalama=%.2f\n",dizi.ad,dizi.vno,dizi.fno,dizi.ort);
+    			a=0;
+			}
+			else
+			{
+				a=1;
+			}
+		}
+		if(a==1)
+		{
+			printf("Kayit yok!!\n\n");
+		}
+	}
+	else
+	{
+		printf("Dosya yok.");
+	}
+	fclose(dosya);
+}
+void kayitdegistirme()
+{
+	int a;
+	char ad[20];
+	printf("Degisiklik yapılacak ogrencinin ismini giriniz:");
+	scanf("%s",&ad);
+	FILE *dosya,*yedek;
+	dosya=fopen("ogrenci.txt","r");
+	yedek=fopen("yedek.txt","w");
+	if(dosya)
+	{
+		while(!feof(dosya))
+		{
+			fscanf(dosya,"%s    Vize=%d    Final=%d    Ortalama=%f\n",&dizi.ad,&dizi.vno,&dizi.fno,&dizi.ort);
+			if(strcmp(ad,dizi.ad)==0)
+			{
+				printf("Ad girin     :"); scanf("%s",&dizi.ad);
+				printf("Vize girin   :"); scanf("%d",&dizi.vno);
+				printf("Final girin  :"); scanf("%d",&dizi.fno);
+				dizi.ort=float (dizi.vno*0.4 + dizi.fno*0.6);
+				fprintf(yedek,"%s    Vize=%d    Final=%d    Ortalama=%.2f\n",dizi.ad,dizi.vno,dizi.fno,dizi.ort);
+				a=1;
+			}
+			else
+			{
+				fprintf(yedek,"%s    Vize=%d    Final=%d    Ortalama=%.2f\n",dizi.ad,dizi.vno,dizi.fno,dizi.ort);
+			}
+		}
+		fclose(dosya);
+ 		fclose(yedek);
+ 		if( a == 1 )
+		{
+			printf("Degisiklik yapildi.\n");
+			remove("ogrenci.txt");
+			rename("yedek.txt","ogrenci.txt");
+		}
+		else
+		{
+			printf("Kayit bulunamadi.");	
+		}	
+	}
+	else
+	{
+		printf("Dosya bulunamadi.");
+	}
+}
